@@ -22,24 +22,32 @@ Here, syntetically, some steps to deploy on kubernetes cluster:
 7. test the service through kubernetes
 
 
-alessandro@alessandro-HP-ProBook-450-G5:~/work/alexapps/javalin-example/target$ sudo kctl apply -f javalin-deployment.yaml
-service/javalin-lb configured
-deployment.apps/javalin created
-alessandro@alessandro-HP-ProBook-450-G5:~/work/alexapps/javalin-example/target$ sudo kctl get pods
+```$ sudo kubectl apply -f javalin-deployment.yaml```
+```service/javalin-lb configured```
+```deployment.apps/javalin created```
+
+```$ sudo kubectl get pods
 NAME                       READY   STATUS    RESTARTS   AGE
 javalin-745945dc8c-d279c   1/1     Running   0          11s
+```
 
-alessandro@alessandro-HP-ProBook-450-G5:~/work/alexapps/javalin-example/target$ sudo kctl get services | grep javalin
+```sudo kubectl get services | grep javalin
 javalin-lb         LoadBalancer   10.152.183.253   <pending>     80:30536/TCP        16m
+```
+```
 
-alessandro@alessandro-HP-ProBook-450-G5:~/work/alexapps/javalin-example/target$ sudo kctl describe service javalin-lb | grep Endpoints
+```$ sudo kubectl describe service javalin-lb | grep Endpoints
 Endpoints:                10.1.36.16:7000
-
+```
+##test
+```
 curl http://10.1.36.16:7000/javalin-api
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-//NOTES - Dockerfile:
 
+
+##NOTES - Dockerfile:##
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 # install the base image
 FROM openjdk:8-jdk-alpine
 
@@ -55,11 +63,12 @@ WORKDIR /app
 # launch the microservice
 CMD ["java", "-jar", "/app/javalin-example-fat.jar"]
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-//NOTES -  javalin-deployment.yaml:
+## NOTES -  javalin-deployment.yaml: ##
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 apiVersion: v1
 kind: Service              
 metadata:
