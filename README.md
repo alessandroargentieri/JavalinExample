@@ -21,32 +21,36 @@ Here, syntetically, some steps to deploy on kubernetes cluster:
 6. start or connect to kubernetes cluster and call kubectl apply method
 7. test the service through kubernetes
 
+~~~~~~~~~~~~~~~~~~~~
+$ sudo kubectl apply -f javalin-deployment.yaml
+service/javalin-lb configured
+deployment.apps/javalin created
+~~~~~~~~~~~~~~~~
 
-```$ sudo kubectl apply -f javalin-deployment.yaml```
-```service/javalin-lb configured```
-```deployment.apps/javalin created```
-
-```$ sudo kubectl get pods
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ sudo kubectl get pods
 NAME                       READY   STATUS    RESTARTS   AGE
 javalin-745945dc8c-d279c   1/1     Running   0          11s
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-```sudo kubectl get services | grep javalin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ sudo kubectl get services | grep javalin
 javalin-lb         LoadBalancer   10.152.183.253   <pending>     80:30536/TCP        16m
-```
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-```$ sudo kubectl describe service javalin-lb | grep Endpoints
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$ sudo kubectl describe service javalin-lb | grep Endpoints
 Endpoints:                10.1.36.16:7000
-```
-##test
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### test
 ```
 curl http://10.1.36.16:7000/javalin-api
 ```
 
 
 
-##NOTES - Dockerfile:##
+### NOTES - Dockerfile:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 # install the base image
 FROM openjdk:8-jdk-alpine
@@ -66,7 +70,7 @@ CMD ["java", "-jar", "/app/javalin-example-fat.jar"]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-## NOTES -  javalin-deployment.yaml: ##
+### NOTES - javalin-deployment.yaml:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 apiVersion: v1
