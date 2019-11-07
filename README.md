@@ -21,27 +21,30 @@ Here, syntetically, some steps to deploy on kubernetes cluster:
 6. start or connect to kubernetes cluster and call kubectl apply method
 7. test the service through kubernetes
 
-~~~~~~~~~~~~~~~~~~~~
+### apply the deployment
+```
 $ sudo kubectl apply -f javalin-deployment.yaml
 service/javalin-lb configured
 deployment.apps/javalin created
-~~~~~~~~~~~~~~~~
+```
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### get the pods 
+```
 $ sudo kubectl get pods
 NAME                       READY   STATUS    RESTARTS   AGE
 javalin-745945dc8c-d279c   1/1     Running   0          11s
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### get the load balancer service 
+```
 $ sudo kubectl get services | grep javalin
 javalin-lb         LoadBalancer   10.152.183.253   <pending>     80:30536/TCP        16m
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+### describe the service
+```
 $ sudo kubectl describe service javalin-lb | grep Endpoints
 Endpoints:                10.1.36.16:7000
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ### test
 ```
@@ -51,7 +54,7 @@ curl http://10.1.36.16:7000/javalin-api
 
 
 ### NOTES - Dockerfile:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+```
 # install the base image
 FROM openjdk:8-jdk-alpine
 
@@ -67,12 +70,11 @@ WORKDIR /app
 # launch the microservice
 CMD ["java", "-jar", "/app/javalin-example-fat.jar"]
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 
 ### NOTES - javalin-deployment.yaml:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 apiVersion: v1
 kind: Service              
 metadata:
@@ -117,5 +119,4 @@ spec:
         ports:
         - containerPort: 7000
           name: javalin
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
